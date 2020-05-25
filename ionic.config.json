@@ -1,0 +1,7 @@
+{
+  "name": "IONIC_GC_APP",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
