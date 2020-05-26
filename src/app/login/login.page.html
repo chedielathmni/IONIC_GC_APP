@@ -1,38 +1,33 @@
-
 <ion-content>
-  
-  
+
+
   <div class="logo">
     <ion-icon color="light" name="car-sport"></ion-icon>
   </div>
 
-  <div class="padding">    
+  <div class="padding">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <ion-item>
+        <ion-icon color="light" name="call"></ion-icon>
+        <ion-input color="light" type='text' placeholder="Numéro de téléphone" name="phoneNumber"
+          formControlName="phoneNumber"></ion-input>
+      </ion-item>
 
-  <ion-item>
-    <ion-icon color="light" name="call"></ion-icon>
-    <ion-input color="light" type='text' placeholder="Numéro de téléphone" name="phoneNumber"
-    [(ngModel)]="credentials.phoneNumber"></ion-input>
-  </ion-item>
+      <ion-item>
+        <ion-icon color="light" name="lock-closed"></ion-icon>
+        <ion-input color="light" type='password' placeholder="Mot de passe" name="password" formControlName="password">
+        </ion-input>
+      </ion-item>
 
-  <ion-item>
-    <ion-icon color="light" name="lock-closed"></ion-icon>
-    <ion-input color="light" type='password' placeholder="Mot de passe" name="password"
-    [(ngModel)]="credentials.password"></ion-input>
-  </ion-item>
+      <ion-item lines='none'>
+        <ion-button color="light" fill="clear" slot="end">Mot de passe oublié ?</ion-button>
+      </ion-item>
 
-  <ion-item lines='none'>
-    <ion-button color="light" fill="clear" slot="end">Mot de passe oublié ?</ion-button>
-  </ion-item>
+      <ion-button color="light" type="submit" [disabled]="!loginForm.valid" fill="outline" shape="round" expand="block"
+        (click)="login()">connexion</ion-button>
+      <br>
+      <ion-button shape="round" expand="block" routerLink="/register" routerDirection="forward">inscription</ion-button>
 
-  <ion-button color="light" fill="outline" shape="round" expand="block" (click)="login()">connexion</ion-button>
-  <br>
-  <ion-button shape="round" expand="block" routerLink="/register" routerDirection="forward">inscription</ion-button>
-</div>
+    </form>
+  </div>
 </ion-content>
-
-
-
-
-
-
-

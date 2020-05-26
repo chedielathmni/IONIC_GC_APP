@@ -52,11 +52,15 @@ export class AuthService {
 
   login(credentials: { phoneNumber: string, password: string }) {
 
-    console.log(JSON.stringify(credentials)) // {"phoneNumber":"20202020","password":"password"}
     return this.http.post(API + '/users/login', JSON.stringify(credentials), httpOptions);
   
   }
 
+  register(credentials: { phoneNumber: string, password: string, firstName: string, lastName: string}) {
+
+    return this.http.post(API + "/users", JSON.stringify(credentials), httpOptions);
+    
+  }
 
 
   getUser() {

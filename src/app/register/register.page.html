@@ -6,28 +6,59 @@
   </div>
 
 
-<div style="padding: 5%;">
-
-  <ion-item>
-    <ion-icon color="light" name="call"></ion-icon>
-    <ion-input color="light" type='text' placeholder="Numéro de téléphone" name="phoneNumber"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-icon color="light" name="lock-open"></ion-icon>
-    <ion-input color="light" type='password' placeholder="Mot de passe" name="password"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-icon color="light" name="lock-closed"></ion-icon>
-    <ion-input color="light" type='password' placeholder="Valider le mot de passe" name="validatePassword"></ion-input>
-  </ion-item>
+  <div style="padding: 5%;">
 
 
-  <ion-button color="light" fill="outline" shape="round" expand="block" style="margin-top: 10%;">inscription</ion-button>
-  <br>
-  <ion-button shape="round" expand="block" routerLink="/login" routerDirection="forward">connection</ion-button>
+    <form [formGroup]="registerForm" (ngSubmit)="register">
+      <div class="page1" *ngIf="page == 1">
 
-</div>
+        <ion-item>
+          <ion-icon color="light" name="call"></ion-icon>
+          <ion-input formControlName="phoneNumber" color="light" type='text' placeholder="Numéro de téléphone"
+            name="phoneNumber">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon color="light" name="lock-open"></ion-icon>
+          <ion-input formControlName="password" color="light" type='password' placeholder="Mot de passe"
+            name="password">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon color="light" name="lock-closed"></ion-icon>
+          <ion-input formControlName="confirmPassword" color="light" type='password'
+            placeholder="Valider le mot de passe" name="confirmPassword">
+          </ion-input>
+        </ion-item>
+
+      </div>
+
+      <div class="page1" *ngIf="page == 2">
+
+        <ion-item>
+          <ion-icon color="light" name="person"></ion-icon>
+          <ion-input formControlName="firstName" color="light" type='text' placeholder="Prenom"
+            name="firstName">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon color="light" name="person"></ion-icon>
+          <ion-input formControlName="lastName" color="light" type='text' placeholder="Nom" name="lastName">
+          </ion-input>
+        </ion-item>
+      </div>
+
+      <ion-button color="light" fill="outline" shape="round" [disabled]="!registerForm.valid && page == 2" expand="block" style="margin-top: 10%;" (click)="register()"
+        type="submit">inscription</ion-button>
+      <br>
+      <ion-button *ngIf="page == 1" shape="round" expand="block" routerLink="/" routerDirection="forward">connection
+      </ion-button>
+      <ion-button *ngIf="page == 2" shape="round" expand="block" (click)="changePage(1)" routerDirection="forward">back
+      </ion-button>
+    </form>
+  </div>
 
 </ion-content>
