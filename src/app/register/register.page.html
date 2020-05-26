@@ -1,12 +1,33 @@
-<ion-header>
-  <ion-toolbar color="secondary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Register</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
 
-<ion-content padding>
+
+  <div class="logo">
+    <ion-icon color="light" name="car-sport"></ion-icon>
+  </div>
+
+
+<div style="padding: 5%;">
+
+  <ion-item>
+    <ion-icon color="light" name="call"></ion-icon>
+    <ion-input color="light" type='text' placeholder="Numéro de téléphone" name="phoneNumber"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon color="light" name="lock-open"></ion-icon>
+    <ion-input color="light" type='password' placeholder="Mot de passe" name="password"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon color="light" name="lock-closed"></ion-icon>
+    <ion-input color="light" type='password' placeholder="Valider le mot de passe" name="validatePassword"></ion-input>
+  </ion-item>
+
+
+  <ion-button color="light" fill="outline" shape="round" expand="block" style="margin-top: 10%;">inscription</ion-button>
+  <br>
+  <ion-button shape="round" expand="block" routerLink="/login" routerDirection="forward">connection</ion-button>
+
+</div>
 
 </ion-content>

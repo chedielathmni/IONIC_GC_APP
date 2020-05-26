@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AlertController } from '@ionic/angular';
@@ -10,24 +11,27 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
   credentials = {
-    username: 'tronsporter1',
-    password: 'password'
+    phoneNumber: '',
+    password: ''
   };
 
   constructor(
     private auth: AuthService,
     private router: Router,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private storage: Storage
   ) { }
 
   ngOnInit() { }
 
   login() {
-    this.auth.login(this.credentials).subscribe(async res => {
+    this.auth.login(this.credentials).subscribe(async (res:any) => {
       if (res) {
-        this.router.navigateByUrl('/home');
+        console.log(res)
+        this.storage.set('token', res.token).then(() => {
+          this.router.navigateByUrl('/home');
+        });
       } else {
-        console.log(this.credentials)
         const alert = await this.alertCtrl.create({
           header: 'Login Failed',
           message: 'Wrong credentials.',
