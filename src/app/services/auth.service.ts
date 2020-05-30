@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 
 const helper = new JwtHelperService();
 const TOKEN_KEY = 'token';
-const API = 'http://localhost:4000/api'
+const API = 'http://192.168.1.5:4000/api'
 
 
 const httpOptions = {
@@ -63,9 +63,23 @@ export class AuthService {
   }
 
 
-  gas(data: { carId: number, purchaseDate: Date, price: string, gasType: string, driverId, number}) {
+  addGasPurchase(data: { carId: number, purchaseDate: Date, price: string, gasType: string, driverId, number}) {
     return this.http.post(API + '/purchases', JSON.stringify(data), httpOptions);
   }
+
+
+
+  getGasPurchases(id: number, results?: number, page?: number) {
+    if (results) {
+      console.log('results => ', results)
+    return this.http.get(`${API}/purchases/${id}?results=${results}&page=${page}` , httpOptions);
+    }
+    else {
+      console.log('no results')
+      return this.http.get(`${API}/purchases/${id}`, httpOptions)
+    }
+  }
+
 
 
   getUser() {

@@ -11,28 +11,43 @@
 
 
 <ion-content [fullscreen]="true">
+  <div *ngIf="purchases" style="margin-bottom: 80px;">
+    <ion-card *ngFor="let p of purchases ">
+      <ion-item>
+        <ion-label>
+          <div class="container">
+            <div class="row">
+              <div class="col-6">
+                <h3>Type: {{ p.gas_type }} </h3>
+              </div>
+              <div class="col-6">
+                <h3>Montant: {{ p.price}} TN</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                <p>Date: {{ p.purchase_date |  date:'dd/MM/yyyy - hh:mm'}}</p>
+              </div>
+              <div class="col-4">
+                <p>Heure: {{ p.purchase_date |  date:'hh:mm'}}</p>
+              </div>
+            </div>
+          </div>
+        </ion-label>
+      </ion-item>
+    </ion-card>
 
-  <form [formGroup]="form">
-    <ion-item>
-      <mat-label>Prix</mat-label>
-      <ion-input formControlName="price"  type='text' name="price">
-      </ion-input>
-    </ion-item>
 
-    <ion-item>
-      <mat-form-field>
-        <mat-label>Type</mat-label>
-        <select matNativeControl required formControlName="gasType">
-          <option value="diesel">Diesel</option>
-          <option value="sans plomb">Sans Plomb</option>
-        </select>
-      </mat-form-field>
-    </ion-item>
-  </form>
-    <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-      <ion-fab-button [disabled]="!form.valid" (click)="send()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+    <ion-infinite-scroll threshold="5%" position="bottom" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+    <ion-fab-button (click)="presentModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>
