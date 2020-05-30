@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
         ])
       ],
       password: [
-        '', 
+        '',
         Validators.compose([
           Validators.maxLength(32),
           Validators.minLength(6)
@@ -47,9 +47,11 @@ export class LoginPage implements OnInit {
     this.auth.login(this.loginForm.value).subscribe(async (res: any) => {
       if (res) {
         if (res.success) {
-          this.storage.set('token', res.token).then(() => {
-            this.router.navigateByUrl('/home');
-          });
+          this.storage.set('user', res.user).then(() => {
+            this.storage.set('token', res.token).then(() => {
+              this.router.navigateByUrl('/home');
+            });
+          })
         }
         else {
           const alert = await this.alertCtrl.create({

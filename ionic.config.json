@@ -1,7 +1,8 @@
 {
   "name": "IONIC_GC_APP",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

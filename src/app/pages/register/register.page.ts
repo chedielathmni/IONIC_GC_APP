@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
@@ -92,8 +92,10 @@ export class RegisterPage implements OnInit {
           if (res.success) {
             const loginData = (({ phoneNumber, password }) => ({ phoneNumber, password }))(this.registerForm.value);
             this.auth.login(loginData).subscribe(async (res: any) => {
-              this.storage.set('token', res.token).then(() => {
-                this.router.navigateByUrl("/home");
+              this.storage.set('user', res.user).then(() => {
+                this.storage.set('token', res.token).then(() => {
+                  this.router.navigateByUrl("/home");
+                })
               })
             })
           }

@@ -3,15 +3,36 @@
     <ion-title>
       Achat
     </ion-title>
+    <ion-button mat-raised-button matTooltip="Envoyer une alerte" color="danger" slot="end">
+      <ion-icon name="mail" style="margin-right: 4px;"></ion-icon>Alerte
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+<ion-content [fullscreen]="true">
+
+  <form [formGroup]="form">
+    <ion-item>
+      <mat-label>Prix</mat-label>
+      <ion-input formControlName="price"  type='text' name="price">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <select matNativeControl required formControlName="gasType">
+          <option value="diesel">Diesel</option>
+          <option value="sans plomb">Sans Plomb</option>
+        </select>
+      </mat-form-field>
+    </ion-item>
+  </form>
+    <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+      <ion-fab-button [disabled]="!form.valid" (click)="send()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
 </ion-content>

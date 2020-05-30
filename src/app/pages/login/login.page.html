@@ -6,10 +6,10 @@
   </div>
 
   <div class="padding">
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <form [formGroup]="loginForm">
       <ion-item>
         <ion-icon color="light" name="call"></ion-icon>
-        <ion-input color="light" type='text' placeholder="Numéro de téléphone" name="phoneNumber"
+        <ion-input color="light" type='tel' placeholder="Numéro de téléphone" name="phoneNumber" inputmode="tel"
           formControlName="phoneNumber"></ion-input>
       </ion-item>
 

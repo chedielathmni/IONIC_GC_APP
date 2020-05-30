@@ -1,8 +1,8 @@
 import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { BehaviorSubject, Observable, from} from 'rxjs';
-import { take, map, switchMap} from 'rxjs/operators';
+import { BehaviorSubject, Observable, from } from 'rxjs';
+import { take, map, switchMap } from 'rxjs/operators';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -53,25 +53,32 @@ export class AuthService {
   login(credentials: { phoneNumber: string, password: string }) {
 
     return this.http.post(API + '/users/login', JSON.stringify(credentials), httpOptions);
-  
+
   }
 
-  register(credentials: { phoneNumber: string, password: string, firstName: string, lastName: string}) {
+  register(credentials: { phoneNumber: string, password: string, firstName: string, lastName: string }) {
 
     return this.http.post(API + "/users", JSON.stringify(credentials), httpOptions);
-    
+
+  }
+
+
+  gas(data: { carId: number, purchaseDate: Date, price: string, gasType: string, driverId, number}) {
+    return this.http.post(API + '/purchases', JSON.stringify(data), httpOptions);
   }
 
 
   getUser() {
-    return this.userData.getValue();
+    return this.userData;
   }
 
   logout() {
-    this.storage.remove(TOKEN_KEY).then(() => {
-      this.router.navigateByUrl('/');
-      this.userData.next(null);
-    });
+    this.storage.remove('user').then(() => {
+      this.storage.remove(TOKEN_KEY).then(() => {
+        this.router.navigateByUrl('/');
+        this.userData.next(null);
+      });
+    })
   }
 
 }

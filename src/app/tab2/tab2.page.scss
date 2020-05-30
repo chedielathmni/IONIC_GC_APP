@@ -1,0 +1,28 @@
+form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+}
+
+ion-item {
+    margin-bottom: 15%;
+    border-radius: 10px !important;
+    padding-left: 30px !important;
+    padding-right: 30px;
+    font-size: 0.9em;
+    border: 1px solid #f1f1f1;
+    background: rgb(219, 219, 219);
+    height: 10%;
+    width: 50%;
+}
+
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+}
+
+
+ion-input{
+    --background: rgb(219,219,219);
+}
