@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Storage } from '@ionic/storage';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonInfiniteScroll } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
 
 @Component({
@@ -13,6 +13,8 @@ import { ModalPage } from '../modal/modal.page';
 
 export class Tab2Page implements OnInit {
 
+
+  @ViewChild(IonInfiniteScroll, { static: false}) infinityScroll: IonInfiniteScroll;
 
 
   user = null;
@@ -44,7 +46,7 @@ export class Tab2Page implements OnInit {
 
 
 
-
+//* modal form creation and configuration
   async presentModal() {
     const modal = await this.modalController.create({
       component: ModalPage,
@@ -52,12 +54,14 @@ export class Tab2Page implements OnInit {
     });
     await modal.present();
     modal.onDidDismiss().then(res => {
-      this.send(res.data);
+      this.addPurchase(res.data);
     })
   }
 
-  send(data) {
 
+
+  //* create new purchases
+  addPurchase(data) {
     if (data) {
       data.purchaseDate = new Date().toISOString().slice(0, -1) + '-10:00';
 
@@ -66,9 +70,9 @@ export class Tab2Page implements OnInit {
         data.driverId = user.id;
       }).then(() => {
         this.auth.addGasPurchase(data).subscribe(async (res: any) => {
-          console.log(res)
           this.purchases = [];
           this.page = 0;
+          this.infinityScroll.disabled = false;
           this.getGasPurchases()
         })
       })
@@ -76,7 +80,8 @@ export class Tab2Page implements OnInit {
   }
 
 
-
+  // * gets the number of pages of data
+  // todo this needs to be changed so it gets the number directly from a rout on the api or something else that doesn't fetch all the data
   getPageCount() {
     let id: number;
 
@@ -85,7 +90,6 @@ export class Tab2Page implements OnInit {
     }).then(() => {
 
       this.auth.getGasPurchases(id).subscribe(async (res: any) => {
-        console.log('count of all data => ', res.data.length)
         this.pageCount = Math.floor(res.data.length / this.results) + 1;
       })
     })
@@ -93,24 +97,14 @@ export class Tab2Page implements OnInit {
 
 
 
-
+  // * fetches the purchases of the connected user
   getGasPurchases(event?) {
     let id: number;
-
     this.storage.get('user').then((user) => {
       id = user.id
     }).then(() => {
-
-
-
       this.auth.getGasPurchases(id, this.results, this.page).subscribe(async (res: any) => {
-        console.log('start => ',this.results * this.page)
-        console.log('end => ', this.results * (this.page +1))
-        console.log('request => ', `api/purchases/${id}?results=${this.results}&page=${this.page}`)
         this.purchases = this.purchases.concat(res.data);
-        console.log('current list => ', this.purchases)
-        console.log('current list length => ', this.purchases.length)
-
         if (event) {
           event.target.complete();
         }
@@ -119,34 +113,15 @@ export class Tab2Page implements OnInit {
   }
 
 
+  // * Loads more data as you scroll down the page, and stops when there's no more data to show
   loadData(event) {
 
-    console.log(event)
     this.page++;
-    console.log('page number => ', this.page)
-    console.log('max pages => ', this.pageCount - 1)
     this.getGasPurchases(event);
 
-
-    // todo fix this part // stops loading when disabled = true, can't be changed to false since the component is disabled and we can't get the event
-    /* if (this.page === this.pageCount - 1) {
+    if (this.page === this.pageCount - 1) {
       event.target.disabled = true;
-    } */
-
-
-
-    //idea 1 doesn't work property 
-
-    /* if (! (this.page === this.pageCount)) {
-      this.getGasPurchases(event);
-      //event.target.innerText = 'Loading more Data';
-    }
-    else {
-      //event.target.innerText = '';
-    } */
-    console.log(event.target.disabled)
-
-
+    } 
   }
 
 }
