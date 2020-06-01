@@ -29,5 +29,35 @@
         <input matInput formControlName="info">
     </mat-form-field>
 
+
+    <h3 *ngIf="images.length == 0" text-center>Please Select Images</h3>
+    <ion-list>
+        <ion-item *ngFor="let img of images; index as pos">
+            <ion-thumbnail slot="start">
+                <ion-img [src]="img.path"></ion-img>
+            </ion-thumbnail>
+            <ion-label></ion-label>
+
+            <ion-button (click)="startUpload()" fill="clear" slot="end">
+                <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="deleteImg(img, pos)" fill="clear" slot="end">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+        </ion-item>
+    </ion-list>
+
     <ion-button class="btn-send" (click)="send()" [disabled]="!alertForm.valid">Envoyer</ion-button>
+
 </form>
+
+
+<ion-footer>
+    <ion-toolbar color="primary">
+        <ion-button fill="clear" expand="full" color="light" (click)="selectImage()">
+            <ion-icon slot="start" name="camera"></ion-icon>
+            Select Image
+        </ion-button>
+    </ion-toolbar>
+</ion-footer>
