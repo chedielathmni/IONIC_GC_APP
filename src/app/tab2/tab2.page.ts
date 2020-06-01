@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { PurchasesService } from '../services/purchases.service'
 import { Storage } from '@ionic/storage';
 import { ModalController, IonInfiniteScroll } from '@ionic/angular';
-import { ModalPage } from '../modal/modal.page';
+import { gasModalPage } from '../modal/purchase/gasModal.page';
+import { alertModalPage } from '../modal/alert/alertModal.page';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-tab2',
@@ -14,7 +17,7 @@ import { ModalPage } from '../modal/modal.page';
 export class Tab2Page implements OnInit {
 
 
-  @ViewChild(IonInfiniteScroll, { static: false}) infinityScroll: IonInfiniteScroll;
+  @ViewChild(IonInfiniteScroll, { static: false }) infinityScroll: IonInfiniteScroll;
 
 
   user = null;
@@ -26,7 +29,9 @@ export class Tab2Page implements OnInit {
 
   constructor(
     private auth: AuthService,
+    private purchaseService: PurchasesService,
     private storage: Storage,
+    private _snackBar: MatSnackBar,
     public modalController: ModalController
   ) {
   }
@@ -44,17 +49,42 @@ export class Tab2Page implements OnInit {
     this.auth.logout();
   }
 
+  reloadDate() {
+    this.page = 0;
+    this.purchases = [];
+    this.getGasPurchases();
+  }
 
 
-//* modal form creation and configuration
+
+  //* modal form creation and configuration
   async presentModal() {
     const modal = await this.modalController.create({
-      component: ModalPage,
+      component: gasModalPage,
       cssClass: 'modal-form'
     });
     await modal.present();
     modal.onDidDismiss().then(res => {
       this.addPurchase(res.data);
+    })
+  }
+
+  async doRefresh(event) {
+    setTimeout(() => {
+      this.reloadDate();
+      event.target.complete();
+    }, 2000);
+    this._snackBar.open('Données mise à jour', null, { duration: 2000, })
+  }
+
+
+  async presentAlertModal() {
+    const alertModal = await this.modalController.create({
+      component: alertModalPage,
+    });
+    await alertModal.present();
+    alertModal.onDidDismiss().then(res => {
+      console.log(res.data)
     })
   }
 
@@ -69,7 +99,7 @@ export class Tab2Page implements OnInit {
         data.carId = user.car_id;
         data.driverId = user.id;
       }).then(() => {
-        this.auth.addGasPurchase(data).subscribe(async (res: any) => {
+        this.purchaseService.addGasPurchase(data).subscribe(async (res: any) => {
           this.purchases = [];
           this.page = 0;
           this.infinityScroll.disabled = false;
@@ -81,7 +111,6 @@ export class Tab2Page implements OnInit {
 
 
   // * gets the number of pages of data
-  // todo this needs to be changed so it gets the number directly from a rout on the api or something else that doesn't fetch all the data
   getPageCount() {
     let id: number;
 
@@ -89,8 +118,10 @@ export class Tab2Page implements OnInit {
       id = user.id
     }).then(() => {
 
-      this.auth.getGasPurchases(id).subscribe(async (res: any) => {
-        this.pageCount = Math.floor(res.data.length / this.results) + 1;
+      this.purchaseService.getPurchasesCount(id).subscribe(async (res: any) => {
+
+        this.pageCount = (res.data.count % this.results != 0) ?
+          Math.floor(res.data.count / this.results) + 1 : res.data.count / this.results
       })
     })
   }
@@ -103,7 +134,7 @@ export class Tab2Page implements OnInit {
     this.storage.get('user').then((user) => {
       id = user.id
     }).then(() => {
-      this.auth.getGasPurchases(id, this.results, this.page).subscribe(async (res: any) => {
+      this.purchaseService.getGasPurchases(id, this.results, this.page).subscribe(async (res: any) => {
         this.purchases = this.purchases.concat(res.data);
         if (event) {
           event.target.complete();
@@ -111,6 +142,7 @@ export class Tab2Page implements OnInit {
       })
     })
   }
+
 
 
   // * Loads more data as you scroll down the page, and stops when there's no more data to show
@@ -121,7 +153,7 @@ export class Tab2Page implements OnInit {
 
     if (this.page === this.pageCount - 1) {
       event.target.disabled = true;
-    } 
+    }
   }
 
 }

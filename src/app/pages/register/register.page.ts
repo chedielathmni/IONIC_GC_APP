@@ -65,6 +65,7 @@ export class RegisterPage implements OnInit {
   }
 
   ngOnInit() {
+    this.auth.checkStatus(); 
   }
 
   static passwordsMatch(cg: FormGroup): { [err: string]: any } {

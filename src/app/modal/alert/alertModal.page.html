@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="end">
+            <ion-button (click)="close()">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Envoyer Alerte</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+
+
+<form [formGroup]="alertForm">
+
+    <mat-form-field>
+        <mat-label>Type d'alerte</mat-label>
+        <select matNativeControl required formControlName="type">
+            <option value="Accident">Accident</option>
+            <option value="Panne">Panne</option>
+            <option value="Autre">Autre</option>
+        </select>
+    </mat-form-field>
+
+
+    <mat-form-field style="width: 100%;">
+        <mat-label>Informations</mat-label>
+        <input matInput formControlName="info">
+    </mat-form-field>
+
+    <ion-button class="btn-send" (click)="send()" [disabled]="!alertForm.valid">Envoyer</ion-button>
+</form>

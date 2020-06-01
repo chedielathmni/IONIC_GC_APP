@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
-    selector: 'modal-page',
-    templateUrl: 'modal.page.html',
-    styleUrls: ['modal.page.scss']
+    selector: 'gasModal-page',
+    templateUrl: 'gasModal.page.html',
+    styleUrls: ['gasModal.page.scss']
 })
-export class ModalPage implements OnInit {
+export class gasModalPage implements OnInit {
 
 
     form: FormGroup;
@@ -31,5 +31,9 @@ export class ModalPage implements OnInit {
 
     async send() {
         await this.modalController.dismiss(this.form.value)
+    }
+
+    close() {
+        this.modalController.dismiss();
     }
 }

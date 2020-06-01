@@ -40,7 +40,11 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    this.auth.checkStatus(); 
+  }
+
 
 
   login() {
@@ -49,7 +53,7 @@ export class LoginPage implements OnInit {
         if (res.success) {
           this.storage.set('user', res.user).then(() => {
             this.storage.set('token', res.token).then(() => {
-              this.router.navigateByUrl('/home');
+              this.router.navigateByUrl('/home/tab2');
             });
           })
         }

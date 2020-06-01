@@ -1,9 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Achat
+      Achats
     </ion-title>
-    <ion-button mat-raised-button matTooltip="Envoyer une alerte" color="danger" slot="end">
+    <ion-button (click)="presentAlertModal()" color="danger" slot="end" class="alert-button">
       <ion-icon name="mail" style="margin-right: 4px;"></ion-icon>Alerte
     </ion-button>
   </ion-toolbar>
@@ -11,6 +11,13 @@
 
 
 <ion-content [fullscreen]="true">
+
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullFactor="0.5" pullMin="100" pullMax="200">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+
   <div *ngIf="purchases" style="margin-bottom: 80px;">
     <ion-card *ngFor="let p of purchases ">
       <ion-item>
@@ -26,10 +33,10 @@
             </div>
             <div class="row">
               <div class="col-8">
-                <p>Date: {{ p.purchase_date |  date:'dd/MM/yyyy - hh:mm'}}</p>
+                <p>Date: {{ p.purchase_date |  date:'dd/MM/yyyy'}}</p>
               </div>
               <div class="col-4">
-                <p>Heure: {{ p.purchase_date |  date:'hh:mm'}}</p>
+                <p>Heure: {{ p.purchase_date |  date:'HH:mm'}}</p>
               </div>
             </div>
           </div>

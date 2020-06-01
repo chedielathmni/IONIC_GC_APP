@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="end">
+            <ion-button (click)="close()">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Ajouter Achat</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<form [formGroup]="form">
+
+    <mat-form-field style="width: 100%;">
+        <mat-label>Prix</mat-label>
+        <input matInput formControlName="price">
+    </mat-form-field>
+
+
+
+    <mat-form-field>
+        <mat-label>Type</mat-label>
+        <select matNativeControl required formControlName="gasType">
+            <option value="diesel">Diesel</option>
+            <option value="sans plomb">Sans Plomb</option>
+            <option value="gasoil">Gasoil</option>
+            <option value="gazole 50">Gazole 50</option>
+        </select>
+    </mat-form-field>
+
+    <ion-button class="btn-send" (click)="send()" [disabled]="!form.valid">Ajouter</ion-button>
+</form>

@@ -28,7 +28,12 @@
 
 .modal-form{
     --background: #FFF;
-    --height: 33%;
-    --width: 70%;
+    --position: fixed;
+    --height: 300px;
+    --width: 270px;
     --border-radius: 15px;
+}
+
+.alert-button {
+    margin-right: 10px;
 }
