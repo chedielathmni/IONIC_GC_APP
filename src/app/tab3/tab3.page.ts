@@ -31,8 +31,14 @@ export class Tab3Page {
     });
     await alertModal.present();
     alertModal.onDidDismiss().then(res => {
-      console.log(res.data)
+      if (res.data) {
+        this.storage.get('coords').then((coords) => {
+          const data = {...res.data, coords}
+          console.log(data)
+        })
+      }
     })
+
   }
 
   async password() {
@@ -42,26 +48,26 @@ export class Tab3Page {
     await passwordModal.present();
     passwordModal.onDidDismiss().then(res => {
       if (res.data) {
-      delete res.data.confirmNewPassword;
-      this.updatePassword(res.data)
+        delete res.data.confirmNewPassword;
+        this.updatePassword(res.data)
       }
     })
   }
 
   updatePassword(data) {
-      let id;
-      this.storage.get('user').then(user => {
-        id = user.id;
-      }).then(() => {
-        this.auth.updatePassword(id, data).subscribe(async (res: any) => {
-          if (res.success) this._snackBar.open('Mot de passe modifié', null, { duration: 2000, })
-          else {
-            this._snackBar.open('Mot de passe erroné', null, { duration: 2000, })
-            this.password();
-          }
-        })
+    let id;
+    this.storage.get('user').then(user => {
+      id = user.id;
+    }).then(() => {
+      this.auth.updatePassword(id, data).subscribe(async (res: any) => {
+        if (res.success) this._snackBar.open('Mot de passe modifié', null, { duration: 2000, })
+        else {
+          this._snackBar.open('Mot de passe erroné', null, { duration: 2000, })
+          this.password();
+        }
       })
-    }
+    })
+  }
 
 }
 

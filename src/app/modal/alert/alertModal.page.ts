@@ -9,6 +9,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 
 import { finalize } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 const STORAGE_KEY = 'my_images';
 
@@ -20,6 +21,7 @@ const STORAGE_KEY = 'my_images';
 })
 export class alertModalPage implements OnInit {
 
+    coords = {};
     images = [];
     alertForm: FormGroup;
 
@@ -29,7 +31,7 @@ export class alertModalPage implements OnInit {
         private camera: Camera, private file: File, private http: HttpClient, private webview: WebView,
         private actionSheetController: ActionSheetController, private toastController: ToastController,
         private storage: Storage, private plt: Platform, private loadingController: LoadingController,
-        private ref: ChangeDetectorRef, private filePath: FilePath
+        private ref: ChangeDetectorRef, private filePath: FilePath, private geolocation: Geolocation
     ) {
         this.alertForm = this.formBuilder.group({
             type: [''],
@@ -41,11 +43,23 @@ export class alertModalPage implements OnInit {
     ngOnInit() {
     }
 
+    getLocaltion() {
+        this.geolocation.getCurrentPosition().then((resp) => {
+            this.storage.set('coords', {long: resp.coords.longitude, lat: resp.coords.latitude}).then(() => {
+                    console.log('done')
+            });
+        }).catch((error) => {
+            console.log('Error getting location', error);
+        });
+    }
+
     async send() {
+        this.getLocaltion()
         await this.modalController.dismiss(this.alertForm.value)
     }
 
     close() {
+
         this.modalController.dismiss();
     }
 

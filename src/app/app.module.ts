@@ -17,7 +17,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
-
+import { Geolocation } from '@ionic-native/geolocation/ngx'
 
 
 @NgModule({
@@ -38,7 +38,8 @@ import { FilePath } from '@ionic-native/file-path/ngx';
     Camera,
     File,
     WebView,
-    FilePath
+    FilePath,
+    Geolocation
   ],
   bootstrap: [AppComponent]
 })
