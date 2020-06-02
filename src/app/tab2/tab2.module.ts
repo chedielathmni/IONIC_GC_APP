@@ -10,6 +10,7 @@ import { MaterialModule } from '../material.module';
 import { Tab2PageRoutingModule } from './tab2-routing.module';
 import { gasModalPage } from '../modal/purchase/gasModal.page'
 import { alertModalPage } from '../modal/alert/alertModal.page';
+import { changePasswordModalPage } from '../modal/changePassword/changePasswordModal.page';
 
 @NgModule({
   imports: [
@@ -22,6 +23,6 @@ import { alertModalPage } from '../modal/alert/alertModal.page';
     RouterModule,
     MaterialModule
   ],
-  declarations: [Tab2Page, gasModalPage, alertModalPage]
+  declarations: [Tab2Page, gasModalPage, alertModalPage, changePasswordModalPage]
 })
 export class Tab2PageModule {}

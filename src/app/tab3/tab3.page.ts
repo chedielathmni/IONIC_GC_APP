@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { alertModalPage } from '../modal/alert/alertModal.page';
 import { ModalController } from '@ionic/angular';
+import { changePasswordModalPage } from '../modal/changePassword/changePasswordModal.page';
 
 @Component({
   selector: 'app-tab3',
@@ -12,56 +13,12 @@ import { ModalController } from '@ionic/angular';
 export class Tab3Page {
 
 
-  isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-
   constructor(
     private auth: AuthService,
-    private formBuilder: FormBuilder,
     private modalController: ModalController
   ) {
 
-
-    this.firstFormGroup = this.formBuilder.group({
-      password: [
-        '',
-        Validators.compose([
-          Validators.maxLength(32),
-          Validators.minLength(6)
-        ])
-      ],
-    });
-    this.secondFormGroup = this.formBuilder.group({
-      newPassword: [
-        '',
-        Validators.compose([
-          Validators.maxLength(32),
-          Validators.minLength(6)
-        ])
-      ],
-      confirmNewPassword: [
-        '',
-        Validators.compose([
-          Validators.maxLength(32),
-          Validators.minLength(6)
-        ])
-      ],
-    }, { validator: Tab3Page.passwordsMatch });
   }
-
-
-  static passwordsMatch(cg: FormGroup): { [err: string]: any } {
-    let pwd1 = cg.get('newPassword');
-    let pwd2 = cg.get('confirmNewPassword');
-    let rv: { [error: string]: any } = {};
-    if ((pwd1.touched || pwd2.touched) && pwd1.value !== pwd2.value) {
-      rv['passwordMismatch'] = true;
-      rv['error'] = 'Mismatching passwords'
-    }
-    return rv;
-  }
-
 
 
   async presentAlertModal() {
@@ -70,6 +27,16 @@ export class Tab3Page {
     });
     await alertModal.present();
     alertModal.onDidDismiss().then(res => {
+      console.log(res.data)
+    })
+  }
+
+  async password() {
+    const passwordModal = await this.modalController.create({
+      component: changePasswordModalPage,
+    });
+    await passwordModal.present();
+    passwordModal.onDidDismiss().then(res => {
       console.log(res.data)
     })
   }
