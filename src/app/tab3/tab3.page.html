@@ -3,11 +3,53 @@
     <ion-title>
       Paramètres
     </ion-title>
-    <ion-button (click)="presentAlertModal()" color="danger" slot="end"class="alert-button">
-      <ion-icon name="mail" style="margin-right: 4px;"></ion-icon>Alerte</ion-button>
+    <ion-button (click)="presentAlertModal()" color="danger" slot="end" class="alert-button">
+      <ion-icon name="mail" style="margin-right: 4px;"></ion-icon>Alerte
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button (click)="this.auth.logout()">Logout</ion-button>
+
+  <mat-vertical-stepper [linear]="true" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Entrer ancien mot de passe</ng-template>
+        <mat-form-field>
+          <mat-label>Mot de passe</mat-label>
+          <input matInput type="password" formControlName="password" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Suivant</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Entrer nouveau mot de passe</ng-template>
+        <mat-form-field>
+          <mat-label>Nouveau mot de passe</mat-label>
+          <input matInput type="password" formControlName="newPassword" required>
+        </mat-form-field>
+        <ng-template matStepLabel>Entrer nouveau mot de passe</ng-template>
+        <mat-form-field>
+          <mat-label>Valider nouveau mot de passe</mat-label>
+          <input matInput type="password" formControlName="confirmNewPassword" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Précedent</button>
+          <button mat-button matStepperNext>Suivant</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Terminer</ng-template>
+      <p>Enregister votre nouveau mot de passe</p>
+      <div>
+        <button mat-button>Enregister</button>
+        <button mat-button matStepperPrevious>Précedent</button>
+        <button mat-button (click)="stepper.reset()">Remise à zero</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
 </ion-content>

@@ -12,7 +12,9 @@ import { ModalController } from '@ionic/angular';
 export class Tab3Page {
 
 
-  changePasswordForm: FormGroup;
+  isLinear = false;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
 
   constructor(
     private auth: AuthService,
@@ -20,15 +22,17 @@ export class Tab3Page {
     private modalController: ModalController
   ) {
 
-    this.changePasswordForm = this.formBuilder.group({
-      oldPassword: [
+
+    this.firstFormGroup = this.formBuilder.group({
+      password: [
         '',
         Validators.compose([
           Validators.maxLength(32),
           Validators.minLength(6)
         ])
       ],
-
+    });
+    this.secondFormGroup = this.formBuilder.group({
       newPassword: [
         '',
         Validators.compose([
@@ -36,15 +40,14 @@ export class Tab3Page {
           Validators.minLength(6)
         ])
       ],
-
       confirmNewPassword: [
         '',
         Validators.compose([
           Validators.maxLength(32),
           Validators.minLength(6)
         ])
-      ]
-    }, { validator: Tab3Page.passwordsMatch })
+      ],
+    }, { validator: Tab3Page.passwordsMatch });
   }
 
 
@@ -70,4 +73,7 @@ export class Tab3Page {
       console.log(res.data)
     })
   }
+
 }
+
+
