@@ -1,7 +1,8 @@
 import { Storage } from '@ionic/storage';
 import { Component, OnInit } from '@angular/core';
 import { CarsService } from '../services/cars.service'
-import { async } from '@angular/core/testing';
+import { alertModalPage } from '../modal/alert/alertModal.page';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -14,7 +15,8 @@ export class Tab1Page implements OnInit {
 
   constructor(
     private carsService: CarsService,
-    private storage: Storage
+    private storage: Storage,
+    private modalController: ModalController
   ) {}
 
 
@@ -32,6 +34,17 @@ export class Tab1Page implements OnInit {
         this.car = res.data;
         console.log('result => ', this.car);
       })
+    })
+  }
+
+
+  async presentAlertModal() {
+    const alertModal = await this.modalController.create({
+      component: alertModalPage,
+    });
+    await alertModal.present();
+    alertModal.onDidDismiss().then(res => {
+      console.log(res.data)
     })
   }
 }

@@ -11,6 +11,12 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTreeModule } from '@angular/material/tree'
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatMenuModule } from '@angular/material/menu'
+import { MatGridListModule } from '@angular/material/grid-list'
+
 
 
 @NgModule({
@@ -26,7 +32,12 @@ import { MatRadioModule } from '@angular/material/radio';
     MatSortModule,
     MatSnackBarModule,
     MatTooltipModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTreeModule,
+    MatTabsModule,
+    MatDividerModule,
+    MatMenuModule,
+    MatGridListModule
   ]
 })
 export class MaterialModule { }

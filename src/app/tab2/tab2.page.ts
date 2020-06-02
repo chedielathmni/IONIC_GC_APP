@@ -49,10 +49,11 @@ export class Tab2Page implements OnInit {
     this.auth.logout();
   }
 
-  reloadDate() {
+  reloadData() {
     this.page = 0;
     this.purchases = [];
     this.getGasPurchases();
+    this.infinityScroll.disabled = false;
   }
 
 
@@ -69,15 +70,16 @@ export class Tab2Page implements OnInit {
     })
   }
 
+  // * reloads Data from database
   async doRefresh(event) {
     setTimeout(() => {
-      this.reloadDate();
+      this.reloadData();
       event.target.complete();
     }, 2000);
     this._snackBar.open('Données mise à jour', null, { duration: 2000, })
   }
 
-
+  // *modal form for sending alerts to api
   async presentAlertModal() {
     const alertModal = await this.modalController.create({
       component: alertModalPage,
@@ -85,6 +87,7 @@ export class Tab2Page implements OnInit {
     await alertModal.present();
     alertModal.onDidDismiss().then(res => {
       console.log(res.data)
+      if (res.data) this._snackBar.open('Alerte Envoyée', null, { duration: 2000, })
     })
   }
 
@@ -104,6 +107,7 @@ export class Tab2Page implements OnInit {
           this.page = 0;
           this.infinityScroll.disabled = false;
           this.getGasPurchases()
+          this._snackBar.open('Donnée Envoyée', null, { duration: 2000, })
         })
       })
     }
@@ -153,6 +157,7 @@ export class Tab2Page implements OnInit {
 
     if (this.page === this.pageCount - 1) {
       event.target.disabled = true;
+      this._snackBar.open('Limite atteinte', null, { duration: 2000, })
     }
   }
 

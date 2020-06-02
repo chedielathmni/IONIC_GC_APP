@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { alertModalPage } from '../modal/alert/alertModal.page';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab3',
@@ -14,7 +16,8 @@ export class Tab3Page {
 
   constructor(
     private auth: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private modalController: ModalController
   ) {
 
     this.changePasswordForm = this.formBuilder.group({
@@ -54,5 +57,17 @@ export class Tab3Page {
       rv['error'] = 'Mismatching passwords'
     }
     return rv;
+  }
+
+
+
+  async presentAlertModal() {
+    const alertModal = await this.modalController.create({
+      component: alertModalPage,
+    });
+    await alertModal.present();
+    alertModal.onDidDismiss().then(res => {
+      console.log(res.data)
+    })
   }
 }

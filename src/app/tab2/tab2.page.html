@@ -1,6 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <ion-icon class="menu-icon"slot="start" name="menu"></ion-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Paramètres</button>
+        <button mat-menu-item (click)="this.auth.logout()">Se déconnecté</button>
+      </mat-menu>
       Achats
     </ion-title>
     <ion-button (click)="presentAlertModal()" color="danger" slot="end" class="alert-button">
@@ -19,29 +26,21 @@
 
 
   <div *ngIf="purchases" style="margin-bottom: 80px;">
-    <ion-card *ngFor="let p of purchases ">
-      <ion-item>
-        <ion-label>
-          <div class="container">
-            <div class="row">
-              <div class="col-6">
-                <h3>Type: {{ p.gas_type }} </h3>
-              </div>
-              <div class="col-6">
-                <h3>Montant: {{ p.price}} TN</h3>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-8">
-                <p>Date: {{ p.purchase_date |  date:'dd/MM/yyyy'}}</p>
-              </div>
-              <div class="col-4">
-                <p>Heure: {{ p.purchase_date |  date:'HH:mm'}}</p>
-              </div>
-            </div>
-          </div>
-        </ion-label>
-      </ion-item>
+    <ion-card *ngFor="let p of purchases">
+      <mat-grid-list cols="2" rowHeight="4:1" style="color: black;">
+        <mat-grid-tile color="dark">
+          <h3>Type: {{ p.gas_type }} </h3>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <h3>Montant: {{ p.price}} TN</h3>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <p>Date: {{ p.purchase_date |  date:'dd/MM/yyyy'}}</p>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <p>Heure: {{ p.purchase_date |  date:'HH:mm'}}</p>
+        </mat-grid-tile>
+      </mat-grid-list>
     </ion-card>
 
 
