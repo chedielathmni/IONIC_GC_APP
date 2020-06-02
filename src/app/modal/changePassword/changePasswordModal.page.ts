@@ -10,8 +10,8 @@ import { ModalController } from '@ionic/angular';
 export class changePasswordModalPage implements OnInit {
 
 
-    firstFormGroup: FormGroup;
-    secondFormGroup: FormGroup;
+    oldPasswordFormGroup: FormGroup;
+    newPasswordFormGroup: FormGroup;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -19,7 +19,7 @@ export class changePasswordModalPage implements OnInit {
     ) {
 
 
-        this.firstFormGroup = this.formBuilder.group({
+        this.oldPasswordFormGroup = this.formBuilder.group({
             password: [
                 '',
                 Validators.compose([
@@ -28,7 +28,7 @@ export class changePasswordModalPage implements OnInit {
                 ])
             ],
         });
-        this.secondFormGroup = this.formBuilder.group({
+        this.newPasswordFormGroup = this.formBuilder.group({
             newPassword: [
                 '',
                 Validators.compose([
@@ -63,7 +63,7 @@ export class changePasswordModalPage implements OnInit {
     }
 
     async send() {
-        await this.modalController.dismiss(this.secondFormGroup.value)
+        await this.modalController.dismiss({...this.oldPasswordFormGroup.value,...this.newPasswordFormGroup.value})
     }
 
     close() {

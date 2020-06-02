@@ -83,4 +83,8 @@ export class AuthService {
     })
   }
 
+  updatePassword(id: number, credentials: {password: string, newPassword: string }) {
+    return this.http.put(`${API}/users/${id}`, JSON.stringify(credentials), httpOptions);
+  }
+
 }

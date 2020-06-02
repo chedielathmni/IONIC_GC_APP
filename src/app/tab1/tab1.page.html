@@ -18,7 +18,7 @@
         <ion-icon class="tab-icon" name="newspaper-outline"></ion-icon>
       </ng-template>
       <div class="padding">
-        <ion-item >
+        <ion-item>
           <h2>Matricule: {{car.number}}</h2>
         </ion-item>
         <ion-item>
@@ -46,10 +46,36 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <ion-icon class="tab-icon" name="arrow-forward-outline"></ion-icon>
+        <ion-icon class="tab-icon" src="assets/icon/tyre.svg"></ion-icon>
       </ng-template>
       <div class="padding">
-
+        <h1 style="text-align: center;">Date de changement des pneus</h1>
+        <mat-grid-list cols="2" rowHeight="3:1" style="color: black;">
+          <mat-grid-tile style=" border: 1px solid black;">
+            <h3>Pneu avant gauche</h3>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <h3>{{ car.fl_wheel_change_date | date: 'dd/MM/yyyy' }} </h3>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <h3>Pneu avant droit</h3>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <h3>{{ car.fr_wheel_change_date | date: 'dd/MM/yyyy' }} </h3>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <h3>Pneu arriere gauche</h3>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <h3> {{ car.bl_wheel_change_date | date: 'dd/MM/yyyy' }} </h3>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <h3>Pneu arriere droit</h3>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <h3>{{ car.br_wheel_change_date | date: 'dd/MM/yyyy' }} </h3>
+          </mat-grid-tile>
+        </mat-grid-list>
 
       </div>
     </mat-tab>
