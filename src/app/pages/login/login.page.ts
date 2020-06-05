@@ -51,16 +51,25 @@ export class LoginPage implements OnInit {
     this.auth.login(this.loginForm.value).subscribe(async (res: any) => {
       if (res) {
         if (res.success) {
-          this.storage.set('user', res.user).then(() => {
+          this.storage.set('user', res.user).then(async (user) => {
+            if (user.valid)
             this.storage.set('token', res.token).then(() => {
               this.router.navigateByUrl('/home/tab2');
             });
+            else {
+              const alert = await this.alertCtrl.create({
+                header: 'Compte non Valide',
+                message: 'Votre Compte doit être Validé par un administrateur',
+                buttons: ['OK']
+              });
+              await alert.present();
+            }
           })
         }
         else {
           const alert = await this.alertCtrl.create({
             header: 'Login Failed',
-            message: res.data,
+            message: 'Mot de passe ou numero erroné',
             buttons: ['OK']
           });
           await alert.present();
@@ -68,7 +77,7 @@ export class LoginPage implements OnInit {
       } else {
         const alert = await this.alertCtrl.create({
           header: 'Login Failed',
-          message: 'Wrong credentials.',
+          message: 'Mot de passe ou numero erroné',
           buttons: ['OK']
         });
         await alert.present();
