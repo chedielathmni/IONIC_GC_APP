@@ -6,10 +6,11 @@ import { take, map, switchMap } from 'rxjs/operators';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment as ENV } from '../../environments/environment'
 
+const API = ENV.API_URL;
+const TOKEN_KEY = ENV.TOKEN_KEY;
 const helper = new JwtHelperService();
-const TOKEN_KEY = 'token';
-const API = 'http://192.168.1.5:4000/api'
 
 
 const httpOptions = {

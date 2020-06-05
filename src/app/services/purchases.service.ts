@@ -4,12 +4,11 @@ import { Storage } from '@ionic/storage';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { environment as ENV } from '../../environments/environment'
 
-
+const API = ENV.API_URL;
+const TOKEN_KEY = ENV.TOKEN_KEY;
 const helper = new JwtHelperService();
-const TOKEN_KEY = 'token';
-const API = 'http://192.168.1.5:4000/api'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -29,7 +28,7 @@ export class PurchasesService {
 
 
 
-  addGasPurchase(data: { carId: number, purchaseDate: Date, price: string, gasType: string, driverId, number}) {
+  addGasPurchase(data: { carId: number, purchaseDate: Date, price: string, gasType: string, driverId: number, utility? :string}) {
     return this.http.post(API + '/purchases', JSON.stringify(data), httpOptions);
   }
 

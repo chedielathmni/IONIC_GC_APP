@@ -86,8 +86,13 @@ export class Tab2Page implements OnInit {
     });
     await alertModal.present();
     alertModal.onDidDismiss().then(res => {
-      console.log(res.data)
-      if (res.data) this._snackBar.open('Alerte Envoyée', null, { duration: 2000, })
+      if (res.data) {
+        this.storage.get('coords').then((coords) => {
+          const data = {...res.data, coords}
+          console.log(data)
+        })
+        if (res.data) this._snackBar.open('Alerte Envoyée', null, { duration: 2000, })
+      }
     })
   }
 

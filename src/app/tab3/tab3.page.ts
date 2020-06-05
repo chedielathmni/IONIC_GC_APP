@@ -36,9 +36,9 @@ export class Tab3Page {
           const data = {...res.data, coords}
           console.log(data)
         })
+        if (res.data) this._snackBar.open('Alerte Envoyée', null, { duration: 2000, })
       }
     })
-
   }
 
   async password() {

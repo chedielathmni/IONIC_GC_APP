@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CarsService } from '../services/cars.service'
 import { alertModalPage } from '../modal/alert/alertModal.page';
 import { ModalController } from '@ionic/angular';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-tab1',
@@ -16,7 +17,8 @@ export class Tab1Page implements OnInit {
   constructor(
     private carsService: CarsService,
     private storage: Storage,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private _snackBar: MatSnackBar
   ) {}
 
 
@@ -44,7 +46,13 @@ export class Tab1Page implements OnInit {
     });
     await alertModal.present();
     alertModal.onDidDismiss().then(res => {
-      console.log(res.data)
+      if (res.data) {
+        this.storage.get('coords').then((coords) => {
+          const data = {...res.data, coords}
+          console.log(data)
+        })
+        if (res.data) this._snackBar.open('Alerte Envoyée', null, { duration: 2000, })
+      }
     })
   }
 }

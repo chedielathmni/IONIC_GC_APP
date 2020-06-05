@@ -21,7 +21,8 @@ export class gasModalPage implements OnInit {
                 Validators.required,
                 Validators.pattern(/^\d*.?\d+$/)
             ])],
-            gasType: ['', Validators.required]
+            gasType: ['', Validators.required],
+            utility: ['']
         })
     }
 

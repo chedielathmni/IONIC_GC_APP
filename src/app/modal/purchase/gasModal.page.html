@@ -28,5 +28,10 @@
         </select>
     </mat-form-field>
 
+    <mat-form-field style="width: 100%;">
+        <mat-label>Utilité</mat-label>
+        <input matInput formControlName="utility">
+    </mat-form-field>
+
     <ion-button class="btn-send" (click)="send()" [disabled]="!form.valid">Ajouter</ion-button>
 </form>
