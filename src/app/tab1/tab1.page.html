@@ -10,8 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-
+<ion-content *ngIf="car; else elseBlock" [fullscreen]="true">
   <mat-tab-group mat-align-tabs="center">
     <mat-tab>
       <ng-template mat-tab-label>
@@ -27,6 +26,9 @@
         <ion-item>
           <h2>N° Carte Grise: {{car.carte_grise}}</h2>
         </ion-item>
+        <ion-item>
+          <h2>Mise à jour: {{car.updated_at |  date:'dd/MM/yyyy'}}</h2>
+        </ion-item>
       </div>
     </mat-tab>
     <mat-tab>
@@ -41,6 +43,9 @@
         <ion-item>
           <h2>Inspection: {{car.last_inspection_date | date:'dd/MM/yyyy'}}</h2>
         </ion-item>
+        <ion-item>
+          <h2>Kilométrage: {{car.kilometrage}}</h2>
+        </ion-item>
       </div>
     </mat-tab>
 
@@ -49,7 +54,11 @@
         <ion-icon class="tab-icon" src="assets/icon/tyre.svg"></ion-icon>
       </ng-template>
       <div class="padding">
-        <h1 style="text-align: center;">Date de changement des pneus</h1>
+        <ion-item-divider>
+          <ion-label>
+            Date de changement des pneus
+          </ion-label>
+        </ion-item-divider>
         <mat-grid-list cols="2" rowHeight="3:1">
           <mat-grid-tile>
             <h3>Pneu avant gauche</h3>
@@ -76,13 +85,35 @@
             <h3>{{ car.br_wheel_change_date | date: 'dd/MM/yyyy' }} </h3>
           </mat-grid-tile>
         </mat-grid-list>
-
+        <ion-item-divider>
+          <ion-label>
+            Date de changement des plaquettes de frein
+          </ion-label>
+        </ion-item-divider>
+        <mat-grid-list cols="2" rowHeight="3:1">
+          <mat-grid-tile>
+            <h3>plaquettes de frein avants</h3>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <h3>{{ car.front_brakes_change_date | date: 'dd/MM/yyyy' }} </h3>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <h3>plaquettes de frein arriéres</h3>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <h3>{{ car.back_brakes_change_date | date: 'dd/MM/yyyy'}} </h3>
+          </mat-grid-tile>
+        </mat-grid-list>
       </div>
     </mat-tab>
   </mat-tab-group>
-
-
-
-
-
 </ion-content>
+
+<ng-template #elseBlock>
+  <ion-content>
+    <h1 style="
+    padding: 70px 0;
+    text-align: center;">
+    Aucun véhicule associé</h1>
+  </ion-content>
+</ng-template>

@@ -93,12 +93,47 @@ export class RegisterPage implements OnInit {
           if (res.success) {
             const loginData = (({ phoneNumber, password }) => ({ phoneNumber, password }))(this.registerForm.value);
             this.auth.login(loginData).subscribe(async (res: any) => {
-              this.storage.set('user', res.user).then(() => {
-                this.storage.set('token', res.token).then(() => {
-                  this.router.navigateByUrl("/home");
-                })
-              })
-            })
+              if (res) {
+                if (res.success) {
+                  this.storage.set('user', res.user).then(async (user) => {
+                    if (user.valid)
+                    this.storage.set('token', res.token).then(() => {
+                      this.router.navigateByUrl('/home/tab2');
+                    });
+                    else {
+                      const alert = await this.alertCtrl.create({
+                        header: 'Compte non Valide',
+                        message: 'Votre Compte doit être Validé par un administrateur',
+                        buttons: [
+                          {
+                            text: 'Ok',
+                            handler: () => {
+                              this.router.navigateByUrl('');
+                            }
+                          }
+                        ]
+                      });
+                      await alert.present();
+                    }
+                  })
+                }
+                else {
+                  const alert = await this.alertCtrl.create({
+                    header: 'Login Failed',
+                    message: 'Mot de passe ou numero erroné',
+                    buttons: ['OK']
+                  });
+                  await alert.present();
+                }
+              } else {
+                const alert = await this.alertCtrl.create({
+                  header: 'Login Failed',
+                  message: 'Données erronées',
+                  buttons: ['OK']
+                });
+                await alert.present();
+              }
+            });
           }
         }
         else {

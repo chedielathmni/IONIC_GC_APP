@@ -6,6 +6,7 @@ import { ModalController } from '@ionic/angular';
 import { changePasswordModalPage } from '../modal/changePassword/changePasswordModal.page';
 import { Storage } from '@ionic/storage';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-tab3',
@@ -19,7 +20,8 @@ export class Tab3Page {
     private auth: AuthService,
     private modalController: ModalController,
     private storage: Storage,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private alert: AlertService
   ) {
 
   }
@@ -32,11 +34,18 @@ export class Tab3Page {
     await alertModal.present();
     alertModal.onDidDismiss().then(res => {
       if (res.data) {
+        this.storage.get('user').then((user) => {
+          res.data.carId = user.car_id;
+          res.data.driverId = user.id;
+        })
         this.storage.get('coords').then((coords) => {
-          const data = {...res.data, coords}
+          const data = {...res.data, coords }
+          this.alert.sendAlert(data).subscribe(async (res:any) => {
+            console.log(res)
+            this._snackBar.open('Alerte Envoyée', null, { duration: 2000, })
+          })
           console.log(data)
         })
-        if (res.data) this._snackBar.open('Alerte Envoyée', null, { duration: 2000, })
       }
     })
   }

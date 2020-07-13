@@ -6,6 +6,9 @@ import { ModalController, IonInfiniteScroll } from '@ionic/angular';
 import { gasModalPage } from '../modal/purchase/gasModal.page';
 import { alertModalPage } from '../modal/alert/alertModal.page';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AlertService } from '../services/alert.service';
+import { async } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab2',
@@ -29,16 +32,30 @@ export class Tab2Page implements OnInit {
 
   constructor(
     private auth: AuthService,
+    private alert: AlertService,
     private purchaseService: PurchasesService,
     private storage: Storage,
     private _snackBar: MatSnackBar,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private router: Router
   ) {
   }
 
   ngOnInit() {
     this.getGasPurchases()
     this.getPageCount()
+    //this.getUser()
+  }
+
+  getUser() {
+    console.log("getting user")
+    this.storage.get('user').then((user) => {
+      this.auth.getUserData(user.id).subscribe((res: any) => {
+        this.storage.set('user', res.user).then(() => {
+          console.log("user => ", res.user)
+        })
+      });
+    })
   }
 
   ionViewWillEnter() {
@@ -87,11 +104,18 @@ export class Tab2Page implements OnInit {
     await alertModal.present();
     alertModal.onDidDismiss().then(res => {
       if (res.data) {
+        this.storage.get('user').then((user) => {
+          res.data.carId = user.car_id;
+          res.data.driverId = user.id;
+        })
         this.storage.get('coords').then((coords) => {
-          const data = {...res.data, coords}
+          const data = { ...res.data, coords }
+          this.alert.sendAlert(data).subscribe(async (res: any) => {
+            console.log(res)
+            this._snackBar.open('Alerte Envoyée', null, { duration: 2000, })
+          })
           console.log(data)
         })
-        if (res.data) this._snackBar.open('Alerte Envoyée', null, { duration: 2000, })
       }
     })
   }

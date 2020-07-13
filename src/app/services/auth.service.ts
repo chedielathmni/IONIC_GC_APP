@@ -71,6 +71,12 @@ export class AuthService {
   }
 
 
+  getUserData(id: number) {
+    console.log('getUserDataService')
+    return this.http.get(API + "/users/" + id, httpOptions);
+  }
+
+
   getUser() {
     return this.userData;
   }

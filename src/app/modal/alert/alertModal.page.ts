@@ -46,7 +46,7 @@ export class alertModalPage implements OnInit {
     getLocaltion() {
         this.geolocation.getCurrentPosition().then((resp) => {
             this.storage.set('coords', {long: resp.coords.longitude, lat: resp.coords.latitude}).then(() => {
-                    console.log('done')
+                    console.log('done',resp.coords)
             });
         }).catch((error) => {
             console.log('Error getting location', error);
@@ -59,7 +59,6 @@ export class alertModalPage implements OnInit {
     }
 
     close() {
-
         this.modalController.dismiss();
     }
 
